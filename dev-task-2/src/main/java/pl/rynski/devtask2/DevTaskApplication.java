@@ -18,10 +18,9 @@ public class DevTaskApplication {
 		List<Integer> higherNumbers = numbers.stream().filter((number) -> number >= 7).sorted(Collections.reverseOrder()).toList();
 		
 		for(Integer lowerNumber: lowerNumbers) {
-			Optional<Integer> higherNumber = higherNumbers.stream().filter(num -> (13 - num == lowerNumber)).findFirst();
-			if(higherNumber.isPresent()) {
-				System.out.println(lowerNumber + " " + higherNumber.get());
-				continue;
+			List<Integer> higherNumbersToPair = higherNumbers.stream().filter(num -> (13 - num == lowerNumber)).toList();
+			for(Integer pair: higherNumbersToPair) {
+				System.out.println(lowerNumber + " " + pair);
 			}
 		}
 	}
