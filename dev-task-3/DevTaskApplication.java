@@ -1,5 +1,3 @@
-package pl.rynski.devtask3;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
