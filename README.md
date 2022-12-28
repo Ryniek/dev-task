@@ -7,7 +7,7 @@
 * [Task 3](#task-3)
 
 ## Prerequisites
-To start an app you need JRE in version at least 16
+To start an app you need JDK in version at least 16
 
 ## Setup
 To pull project on your local environment:
