@@ -2,7 +2,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class DevTaskApplication {
 
@@ -10,47 +17,22 @@ public class DevTaskApplication {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		int connectionsInGraph = Integer.valueOf(in.readLine());
 		
-		List<Pair> graph = new ArrayList<Pair>();
-		for(int i = 0; i < connectionsInGraph; i++) {
-			String[] points = in.readLine().split(" ");
-			graph.add(new Pair(Integer.valueOf(points[0]), Integer.valueOf(points[1])));
-		}
+		Map<Integer, Set<Integer>> graphs = new HashMap<>(); 
 		
-		int numberOfGraphs = 1;
-		for(int i = 1; i < graph.size(); i++) {
-			for(int m = 0; m < i; m++) {
-				if(Pair.arePointsConnected(graph.get(m), graph.get(i))) {
+		for(int i = 0; i < connectionsInGraph; i++) {
+			String[] input = in.readLine().split(" ");
+			boolean connected = false;
+			Set<Integer> points = new HashSet<>(Arrays.asList(Integer.valueOf(input[0]), Integer.valueOf(input[1])));
+			for(Map.Entry<Integer, Set<Integer>> entry : graphs.entrySet()) {
+				if(entry.getValue().stream().anyMatch(points::contains)) {
+					entry.getValue().addAll(points);
+					connected = true;
 					break;
 				}
-				if(m == i - 1) numberOfGraphs++;
 			}
+			if(connected == false) graphs.put(i, points);
 		}
 		
-		System.out.println(numberOfGraphs);
-	}
-	
-	public static class Pair {
-		private Integer key;
-		private Integer value;
-		
-		public Pair(Integer key, Integer value) {
-			this.key = key;
-			this.value = value;
-		}
-		
-		public Integer getKey() {
-			return key;
-		}
-		
-		public Integer getValue() {
-			return value;
-		}
-		
-		public static boolean arePointsConnected(Pair firstPair, Pair secondPair) {
-			return (firstPair.getKey() == secondPair.getKey() || 
-					firstPair.getKey() == secondPair.getValue() || 
-					firstPair.getValue() == secondPair.getKey() || 
-					firstPair.getValue() == secondPair.getValue());
-		}
+		System.out.println(graphs.size());
 	}
 }
